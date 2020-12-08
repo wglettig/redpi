@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button {
+    width: 70px;
+    height: 50px; /* Specified height */
+    text-align: center;
+}
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+            appearance: none;
+            width: 640px; /* Full-width */
+	    height: 50px; /* Specified height */
+	    background: #d3d3d3; /* Grey background */
+	    outline: none; /* Remove outline */
+	    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
+    }
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+         -webkit-appearance: none; /* Override default look */
+                appearance: none;
+                width: 50px; /* Set a specific slider handle width */
+                height: 50px; /* Slider handle height */
+		background: #4CAF50; /* Green background */
+		cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+                width: 50px; /* Set a specific slider handle width */
+	        height: 50px; /* Slider handle height */
+	        background: #4CAF50; /* Green background */
+	        cursor: pointer; /* Cursor on hover */
+}
+</style>
+</head>
+
+<body>
+	<img src="title.png" alt="title">	
+	<br>
+
+	<!-- SHX Slider -->
+	<div class="slidecontainer">
+		<strong>RedPi Output Voltage:</strong><br>
+	        <input type="range" min="0" max="100" value="0" step="1" class="slider" id="V1_slider">
+	</div>
+	<span>Value:</span> <span id="V1_value" style="font-weight:bold;color:red"></span>
+	<script>
+            var V1_slider = document.getElementById("V1_slider");
+            var V1_output = document.getElementById("V1_value");
+	    V1_output.innerHTML = V1_slider.value; // Display the default slider value
+	    // Update the current slider value (each time you drag the slider handle)
+	    V1_slider.oninput = function() {
+	        V1_output.innerHTML = V1_slider.value;
+	        let xhr = new XMLHttpRequest(); 
+	        let url = "http://redpi:5000/?val="+V1_slider.value; 
+	        xhr.open("PUT", url); 
+	        xhr.send(); 
+	    }
+	</script>
+	<br>
+	<br>
+
+
+	<!-- Button Bar --> 
+	<button onclick="setVal(0)"   class="button" id="buttonMODE0">OFF</button>
+	<button onclick="setVal(50)"  class="button" id="buttonMODE1">50%</button>
+	<button onclick="setVal(100)" class="button" id="buttonMODE2">FULL</button>
+	<br>
+	<script>
+            function setVal(val) {
+                let xhr = new XMLHttpRequest(); 
+                let url = "http://redpi:5000/?val="+val; 
+                xhr.open("PUT", url); 
+                xhr.send(); 
+            }
+	</script>
+	<br>
+
+	<!-- Readback JSON Display -->
+	<strong>Readback:</strong><br><span id="Readback_JSON" style="font-family:monospace"></span><br>
+
+
+	<script>
+	    var jsonfield = document.getElementById("Readback_JSON");
+        
+	    //Function to grab JSON
+            var getJSON = function(url, callback) {
+		 var xhr = new XMLHttpRequest();
+		 xhr.open('GET', url, true);
+		 xhr.responseType = 'json';
+		 xhr.onload = function() {
+		          var status = xhr.status;
+		          if (status === 200) {
+		                callback(null, xhr.response);
+		          } else {
+		          callback(status, xhr.response);
+		          }
+		 };
+		 xhr.send();
+	    };
+	    //Function to continuously read JSON from SmarGon RESTapi and update page
+		var intervalID = setInterval(function(){
+	            getJSON('http://redpi:5000',
+		    function(err, data) {
+		            if (err !== null) {
+		                  alert('Something went wrong: ' + err);
+		            } else {
+		                //Here we update the span:
+		    	        jsonfield.innerHTML = "<pre>"+JSON.stringify(data,undefined,2)+"</pre>";
+ 				V1_slider.value = data;
+	    			V1_output.innerHTML = V1_slider.value; // Display the default slider value
+             		}
+		    });
+		}, 500);
+	</script>
+
+	<body>
+
+
+
+

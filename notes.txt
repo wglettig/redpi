@@ -1,0 +1,39 @@
+Prerequisites:
+////////////////////////////////////////////////////////////////////////////////
+Set Standard Python to Python 3:
+python --version
+
+if this is Python 2.7.8, this is how to change that systemwide:
+update-alternatives --list python
+
+If this list is empty, then list the alternatives with priorities:
+update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+
+Check again with:
+python --version
+
+We can list alternatives with:
+update-alternatives --list python
+
+We can select alternatives with:
+update-alternatives --config python
+
+////////////////////////////////////////////////////////////////////////////////
+Install CORS to allow a browser/html page to access the RESTapi:
+sudo pip install flask_cors
+
+////////////////////////////////////////////////////////////////////////////////
+How to run a python script on boot. We used 2)
+
+Method 1) in /etc/profile:
+ sudo vi /etc/profile
+ add as the last line
+ sudo python /home/redpi/autostart/script.py
+
+Method 2) using cron:
+ sudo crontab -e
+ // this contains a list of jobs that cron will monitor and run
+ @reboot python /home/pi/AutoStart/server_rest.py &
+ @reboot python /home/pi/AutoStart/server_http.py &
+
