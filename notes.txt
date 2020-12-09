@@ -22,6 +22,22 @@ update-alternatives --config python
 ////////////////////////////////////////////////////////////////////////////////
 Install CORS to allow a browser/html page to access the RESTapi:
 sudo pip install flask_cors
+////////////////////////////////////////////////////////////////////////////////
+Automatically start pigpiod on startup
+sudo systemctl enable pigpiod
+
+sudo pigpiod 
+or
+sudo systemctl start
+will start it straight away
+sudo systemctl stop
+will stop it straight away
+
+sudo systemctl disable 
+will undo the start-up behaviour
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 How to run a python script on boot. We used 2)
