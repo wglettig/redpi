@@ -7,8 +7,8 @@ if this is Python 2.7.8, this is how to change that systemwide:
 update-alternatives --list python
 
 If this list is empty, then list the alternatives with priorities:
-update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
-update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
 
 Check again with:
 python --version
@@ -20,8 +20,22 @@ We can select alternatives with:
 update-alternatives --config python
 
 ////////////////////////////////////////////////////////////////////////////////
+Install pip for Python 3
+sudo apt-get install python3-pip
+
+////////////////////////////////////////////////////////////////////////////////
+Install Flask and flask_restfuk
+sudo pip3 install flask flask_restful
+
+////////////////////////////////////////////////////////////////////////////////
 Install CORS to allow a browser/html page to access the RESTapi:
 sudo pip install flask_cors
+
+////////////////////////////////////////////////////////////////////////////////
+Install PiGPIO for fast access to RPi Pins,
+
+sudo apt-get install python pigpio
+
 ////////////////////////////////////////////////////////////////////////////////
 Automatically start pigpiod on startup
 sudo systemctl enable pigpiod
@@ -37,7 +51,25 @@ sudo systemctl disable
 will undo the start-up behaviour
 
 
+////////////////////////////////////////////////////////////////////////////////
+Configure git:
+git config --global user.email "wayne.glettig@gmx.ch"
+git config --global user.name "Wayne Glettig"  
+git config --global core.editor "vim"
 
+
+////////////////////////////////////////////////////////////////////////////////
+Configure vim TAB = 4 spaces
+edit .vimrc:
+Add the following:
+
+filetype plugin indent on
+" show existing tab with 4 spaces width
+set tabstop=4
+" when indenting with '>', use 4 spaces width
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
+set expandtab
 
 ////////////////////////////////////////////////////////////////////////////////
 How to run a python script on boot. We used 2)
