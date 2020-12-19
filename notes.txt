@@ -1,67 +1,70 @@
 Prerequisites:
 ////////////////////////////////////////////////////////////////////////////////
-Set Standard Python to Python 3:
+// Set Standard Python to Python 3:
 python --version
 
-if this is Python 2.7.8, this is how to change that systemwide:
+//if this is Python 2.7.8, this is how to change that systemwide:
 update-alternatives --list python
 
-If this list is empty, then list the alternatives with priorities:
+//If this list is empty, then list the alternatives with priorities:
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
 
-Check again with:
+//Check again with:
 python --version
 
-We can list alternatives with:
+//We can list alternatives with:
 update-alternatives --list python
 
-We can select alternatives with:
+//We can select alternatives with:
 update-alternatives --config python
 
 ////////////////////////////////////////////////////////////////////////////////
-Install pip for Python 3
+// Install pip for Python 3
 sudo apt-get install python3-pip
 
 ////////////////////////////////////////////////////////////////////////////////
-Install Flask and flask_restfuk
+// Install Flask and flask_restfuk
 sudo pip3 install flask flask_restful
 
 ////////////////////////////////////////////////////////////////////////////////
-Install CORS to allow a browser/html page to access the RESTapi:
+// Install CORS to allow a browser/html page to access the RESTapi:
 sudo pip install flask_cors
 
 ////////////////////////////////////////////////////////////////////////////////
-Install PiGPIO for fast access to RPi Pins,
+// Open firewall to port 5000
+sudo ufw allow 5000
 
+////////////////////////////////////////////////////////////////////////////////
+// Install PiGPIO for fast access to RPi Pins,
 sudo apt-get install python pigpio
 
 ////////////////////////////////////////////////////////////////////////////////
-Automatically start pigpiod on startup
+// Automatically start pigpiod on startup
 sudo systemctl enable pigpiod
 
 sudo pigpiod 
 or
 sudo systemctl start
-will start it straight away
+//will start it straight away
 sudo systemctl stop
-will stop it straight away
+//will stop it straight away
 
 sudo systemctl disable 
-will undo the start-up behaviour
+//will undo the start-up behaviour
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Configure git:
+// Configure git:
 git config --global user.email "wayne.glettig@gmx.ch"
 git config --global user.name "Wayne Glettig"  
 git config --global core.editor "vim"
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Configure vim TAB = 4 spaces
-edit .vimrc:
-Add the following:
+// Configure vim TAB = 4 spaces
+// edit .vimrc:
+// Add the following:
 
 filetype plugin indent on
 " show existing tab with 4 spaces width
@@ -72,7 +75,7 @@ set shiftwidth=4
 set expandtab
 
 ////////////////////////////////////////////////////////////////////////////////
-How to run a python script on boot. We used 2)
+// How to run a python script on boot. We used 2)
 
 Method 1) in /etc/profile:
  sudo vi /etc/profile
