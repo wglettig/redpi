@@ -33,4 +33,5 @@ sudo update-alternatives --config python
 python --version
 
 Install flask_restful
-pip3 install flask-restful
+pip3 install flask_restful
+pip3 install flask_cors
